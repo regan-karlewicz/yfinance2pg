@@ -1,4 +1,4 @@
-# yfinance2pf
+# yfinance2pg
 
 Download financial data to postgres database from yahoo finance.
 

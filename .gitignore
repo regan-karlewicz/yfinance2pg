@@ -2,5 +2,5 @@ __pycache__
 database.ini
 build
 dist
-yfinance2pf.egg-info
+yfinance2pg_karlewr.egg-info
 *.pyc
