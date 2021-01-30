@@ -1,0 +1,6 @@
+yfinance
+psycopg2
+requests
+html5lib
+bs4
+multitasking
