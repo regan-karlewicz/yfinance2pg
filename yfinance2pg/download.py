@@ -34,7 +34,7 @@ def companies(curs, commit):
     companies = []
 
     current_chunk = 0
-    chunk_size = 50
+    chunk_size = 100
     total_chunks = math.ceil(len(symbols) / chunk_size)
 
     for symbol_chunk in helpers.chunks(symbols, chunk_size):

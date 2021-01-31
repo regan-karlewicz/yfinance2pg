@@ -45,7 +45,7 @@ if __name__ == '__main__':
         end = time.time()
         total = math.floor(end - start)
         total_time = str(datetime.timedelta(seconds=total))
-        print('done {0} h:mm:ss'.format(total_time))
+        print('finished {0} h:mm:ss'.format(total_time))
     except KeyboardInterrupt:
         pass
     except Exception:

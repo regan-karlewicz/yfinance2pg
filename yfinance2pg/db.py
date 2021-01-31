@@ -84,14 +84,3 @@ def get_symbols(curs):
 def get_from_date(curs):
     curs.execute('SELECT MAX(Day) FROM PriceVolume')
     return str(curs.fetchone()[0] or '1970-01-01')
-
-
-def get_moving_averages(curs, symbol, length, start, end):
-    curs.execute(
-        'SELECT Day, AVG(closeprice) ' +
-        'OVER (' +
-        'ORDER BY Day ASC ROWS BETWEEN %s PRECEDING AND CURRENT ROW' +
-        ') FROM pricevolume WHERE Ticker = %s AND Day >= %s AND Day <= %s',
-        (length, symbol, start, end)
-    )
-    return curs.fetchall()
