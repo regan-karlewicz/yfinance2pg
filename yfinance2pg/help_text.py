@@ -4,7 +4,7 @@ def print_menu():
         Download financial data to postgres database from yahoo finance.
 
     usage:
-        python yfinance2pg <options>
+        yfinance2pg <options>
 
     options:
         --help

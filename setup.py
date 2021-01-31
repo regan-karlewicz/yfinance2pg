@@ -19,12 +19,12 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     install_requires=[
-        'yfinance',
-        'psycopg2',
-        'requests',
-        'html5lib',
-        'bs4',
-        'multitasking'
+        'yfinance>=0.1.55',
+        'psycopg2>=2.8.6',
+        'requests>=2.25.1',
+        'html5lib>=1.1',
+        'bs4>=0.0.1',
+        'multitasking>=0.0.9'
     ],
     python_requires='>=3.6',
 )

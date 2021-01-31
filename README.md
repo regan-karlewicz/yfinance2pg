@@ -4,12 +4,12 @@ Download financial data to postgres database from yahoo finance.
 
 ```txt
 usage:
-    python yfinance2pg [options]
+    yfinance2pg [options]
 
 options:
     --help
         help menu
-    --exclude [value ...]
+    --exclude [value,...]
         skip download phase, possible list
         values are `companies` or `priceVolume`
     --host [string]
