@@ -8,6 +8,10 @@ import download
 import help_text
 import args
 
+if args.exists('help'):
+    help_text.print_menu()
+    exit(0)
+
 exclude = args.get_list('exclude')
 download_companies = 'companies' not in exclude
 download_price_volume = 'priceVolume' not in exclude
@@ -19,10 +23,6 @@ connection_options = {
     'dbname': args.get('dbname'),
     'port': args.get('port')
 }
-
-if args.exists('help'):
-    help_text.print_menu()
-    exit(0)
 
 if __name__ == '__main__':
     start = time.time()
