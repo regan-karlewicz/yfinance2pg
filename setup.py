@@ -4,7 +4,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='yfinance2pg-karlewr',  # Replace with your own username
+    name='yfinance2pg',  # Replace with your own username
     version='0.0.1',
     author='Regan Karlewicz',
     author_email='yfinance2pg@karlewr.net',
