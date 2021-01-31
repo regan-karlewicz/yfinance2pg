@@ -1,11 +1,12 @@
-import db
 import datetime
 import yfinance
 import math
-import tickers
 import multitasking
-import helpers
 import pandas as pd
+
+import yfinance2pg.tickers as tickers
+import yfinance2pg.helpers as helpers
+import yfinance2pg.db as db
 
 
 @multitasking.task

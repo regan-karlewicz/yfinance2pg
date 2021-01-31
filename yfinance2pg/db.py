@@ -1,8 +1,9 @@
 import psycopg2
 import psycopg2.extras
-import config
 import os
-import helpers
+
+import yfinance2pg.helpers as helpers
+import yfinance2pg.config as config
 
 
 def connect(**kwargs):
