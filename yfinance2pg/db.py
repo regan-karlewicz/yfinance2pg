@@ -2,7 +2,7 @@ import psycopg2
 import psycopg2.extras
 import config
 import os
-import measurement_type
+import helpers
 
 
 def connect(**kwargs):
@@ -57,7 +57,7 @@ def insert_price_volumes(curs, days):
 
 
 def insert_price_volume_measurement(curs, date, symbol, measure_label, value):
-    m_type = measurement_type.get(measure_label)
+    m_type = helpers.get_measurement_type(measure_label)
     format_args = (m_type,) * 3
     insert_query = '''
         INSERT INTO PriceVolume
