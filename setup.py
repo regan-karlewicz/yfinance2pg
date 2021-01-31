@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='yfinance2pg',  # Replace with your own username
-    version='0.0.1',
+    version='0.0.2',
     author='Regan Karlewicz',
     author_email='yfinance2pg@karlewr.net',
     description='Download finance data from yfinance to postgres database',
