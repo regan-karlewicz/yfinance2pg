@@ -4,9 +4,13 @@ import math
 import multitasking
 import pandas as pd
 
-import yfinance2pg.tickers as tickers
-import yfinance2pg.helpers as helpers
-import yfinance2pg.db as db
+from .tickers import get_symbols
+from .helpers import chunks
+from .db import \
+    get_symbols as get_downloaded, \
+    get_from_date, \
+    insert_price_volume_measurement, \
+    insert_symbols
 
 
 @multitasking.task
@@ -29,8 +33,8 @@ def download_company(symbol, companies):
 def companies(curs, commit):
     print('== Downloading company data ==')
 
-    symbols = tickers.get_symbols()
-    downloaded = set(db.get_symbols(curs))
+    symbols = get_symbols()
+    downloaded = set(get_downloaded(curs))
 
     companies = []
 
@@ -38,38 +42,43 @@ def companies(curs, commit):
     chunk_size = 100
     total_chunks = math.ceil(len(symbols) / chunk_size)
 
-    for symbol_chunk in helpers.chunks(symbols, chunk_size):
+    for symbol_chunk in chunks(symbols, chunk_size):
         current_chunk += 1
         print(
             'Downloading chunk {0} of {1}'
             .format(current_chunk, total_chunks)
         )
 
+        any_downloaded = False
         for symbol in symbol_chunk:
             if symbol in downloaded:
                 continue
 
+            any_downloaded = True
             download_company(symbol, companies)
 
-        multitasking.wait_for_tasks()
+        if any_downloaded:
+            multitasking.wait_for_tasks()
 
     if len(companies) > 0:
-        db.insert_symbols(curs, companies)
+        insert_symbols(curs, companies)
         commit()
 
 
-def price_volume(curs, commit):
+def price_volume(curs, start_date, commit):
     print('== Downloading price volume data ==')
 
-    symbols = db.get_symbols(curs)
-    start = db.get_from_date(curs)
+    symbols = get_symbols()
+    start = start_date or get_from_date(curs)
     end = str(datetime.date.today())
+
+    print('Start date: ', start)
 
     current_chunk = 0
     chunk_size = 100
     total_chunks = math.ceil(len(symbols) / chunk_size)
 
-    for symbol_chunk in helpers.chunks(symbols, chunk_size):
+    for symbol_chunk in chunks(symbols, chunk_size):
         current_chunk += 1
         print('Downloading chunk {0} of {1}'.format(
             current_chunk, total_chunks
@@ -91,7 +100,7 @@ def price_volume(curs, commit):
                 if pd.isna(value):
                     continue
 
-                db.insert_price_volume_measurement(
+                insert_price_volume_measurement(
                     curs, date, symbol, measure, value
                 )
 

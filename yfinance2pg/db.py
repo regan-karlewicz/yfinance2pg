@@ -2,8 +2,8 @@ import psycopg2
 import psycopg2.extras
 import os
 
-import yfinance2pg.helpers as helpers
-import yfinance2pg.config as config
+from .helpers import get_measurement_type
+from .config import config
 
 
 def connect(**kwargs):
@@ -20,7 +20,7 @@ def connect(**kwargs):
 
 def connect_default():
     try:
-        params = config.config(section='postgresql')
+        params = config(section='postgresql')
         return psycopg2.connect(**params)
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
@@ -44,21 +44,8 @@ def insert_symbols(curs, symbols):
     )
 
 
-def insert_price_volumes(curs, days):
-    insert_query = '''
-        INSERT INTO PriceVolume
-        (Ticker, Day, OpenPrice, ClosePrice,
-        AdjustedClosePrice, HighPrice, LowPrice, Volume)
-        VALUES %s ON CONFLICT DO NOTHING
-    '''
-
-    psycopg2.extras.execute_values(
-        curs, insert_query, days, template=None, page_size=100
-    )
-
-
 def insert_price_volume_measurement(curs, date, symbol, measure_label, value):
-    m_type = helpers.get_measurement_type(measure_label)
+    m_type = get_measurement_type(measure_label)
     format_args = (m_type,) * 3
     insert_query = '''
         INSERT INTO PriceVolume

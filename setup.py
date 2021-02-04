@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='yfinance2pg',  # Replace with your own username
-    version='1.0.0',
+    version='1.0.1',
     author='Regan Karlewicz',
     author_email='yfinance2pg@karlewr.net',
     description='Download finance data from yfinance to postgres database',
@@ -18,7 +18,10 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    scripts=['bin/yfinance2pg'],
+    entry_points='''
+        [console_scripts]
+        yfinance2pg=yfinance2pg.main:main
+    ''',
     install_requires=[
         'yfinance>=0.1.55',
         'psycopg2>=2.8.6',
