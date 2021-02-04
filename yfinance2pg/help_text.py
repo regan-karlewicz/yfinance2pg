@@ -12,6 +12,10 @@ def print_menu():
         --exclude [value ...]
             skip download phase, possible list
             values are `companies` or `priceVolume`
+        --start-date [YYYY-MM-DD]
+            start date for price volume data download
+            defaults to last downloaded day, or Jan 1, 1970
+            if no previous data exists
         --host [string]
         --user [string]
         --dbname [string]
