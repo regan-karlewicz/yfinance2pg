@@ -30,10 +30,10 @@ def download_company(symbol, companies):
         print('Failed for {0}: {1}'.format(symbol, e))
 
 
-def companies(curs, commit):
+def companies(curs, tickers_file, commit):
     print('== Downloading company data ==')
 
-    symbols = get_symbols()
+    symbols = get_symbols(tickers_file)
     downloaded = set(get_downloaded(curs))
 
     companies = []
@@ -72,7 +72,10 @@ def price_volume(curs, start_date, commit):
     start = start_date or get_from_date(curs)
     end = str(datetime.date.today())
 
-    print('Start date: ', start)
+    if start > end:
+        raise Exception('Start date must be before end date')
+
+    print('Date range:', start, '-', end)
 
     current_chunk = 0
     chunk_size = 100

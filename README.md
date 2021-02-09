@@ -26,3 +26,7 @@ options:
     --password [string]
         postgres connection options
 ```
+
+## Want to contribute?
+
+Open a PR!

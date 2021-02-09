@@ -16,6 +16,7 @@ exclude = get_list('exclude')
 download_companies = 'companies' not in exclude
 download_price_volume = 'priceVolume' not in exclude
 start_date = get('start-date')
+tickers_file = get('tickers-file')
 
 connection_options = {
     'host': get('host'),
@@ -37,7 +38,7 @@ def main():
         conn.commit()
 
         if download_companies:
-            companies(curs, conn.commit)
+            companies(curs, tickers_file, conn.commit)
 
         if download_price_volume:
             price_volume(curs, start_date, conn.commit)
