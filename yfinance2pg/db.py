@@ -44,6 +44,16 @@ def insert_symbols(curs, symbols):
     )
 
 
+def mark_delisted(curs, missing_companies):
+    update_query = '''
+        UPDATE Company
+        SET Delisted = True
+        WHERE Ticker IN %s
+    '''
+
+    curs.execute(update_query, tuple(missing_companies))
+
+
 def insert_price_volume_measurement(curs, date, symbol, measure_label, value):
     m_type = get_measurement_type(measure_label)
     format_args = (m_type,) * 3
@@ -63,6 +73,14 @@ def insert_price_volume_measurement(curs, date, symbol, measure_label, value):
 
 def get_symbols(curs):
     curs.execute('SELECT Ticker FROM Company')
+
+    fetched = curs.fetchall()
+    all_symbols = map(lambda x: x[0], fetched)
+    return list(all_symbols)
+
+
+def get_listed_symbols(curs):
+    curs.execute('SELECT Ticker FROM Company WHERE Delisted = False')
 
     fetched = curs.fetchall()
     all_symbols = map(lambda x: x[0], fetched)

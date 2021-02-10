@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS Company (
   Exchange VARCHAR,
   Industry VARCHAR,
   Sector VARCHAR,
+  Delisted BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (Ticker)
 );
 

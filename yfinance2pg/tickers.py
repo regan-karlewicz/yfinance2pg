@@ -25,8 +25,8 @@ def get_tickers_from_file(tickers_file):
     return tickers
 
 
-def get_symbols(tickers_file):
-    if tickers_file:
+def get_symbols(tickers_file=None):
+    if tickers_file is not None:
         get_tickers_from_file(tickers_file)
 
     return get_sec_list()

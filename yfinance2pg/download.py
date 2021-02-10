@@ -10,7 +10,9 @@ from .db import \
     get_symbols as get_downloaded, \
     get_from_date, \
     insert_price_volume_measurement, \
-    insert_symbols
+    insert_symbols, \
+    mark_delisted, \
+    get_listed_symbols
 
 
 @multitasking.task
@@ -68,7 +70,7 @@ def companies(curs, tickers_file, commit):
 def price_volume(curs, start_date, commit):
     print('== Downloading price volume data ==')
 
-    symbols = get_symbols()
+    symbols = get_listed_symbols(curs)
     start = start_date or get_from_date(curs)
     end = str(datetime.date.today())
 
@@ -93,6 +95,8 @@ def price_volume(curs, start_date, commit):
             end=end
         )
 
+        companies_seen = set()
+
         for day in data.iterrows():
             date = day[0]
             prices = day[1]
@@ -103,8 +107,15 @@ def price_volume(curs, start_date, commit):
                 if pd.isna(value):
                     continue
 
+                companies_seen.add(symbol)
+
                 insert_price_volume_measurement(
                     curs, date, symbol, measure, value
                 )
 
-            commit()
+        missing_companies = set(symbol_chunk).difference(companies_seen)
+
+        if len(missing_companies) > 0:
+            mark_delisted(curs, missing_companies)
+
+        commit()
