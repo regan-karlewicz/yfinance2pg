@@ -2,10 +2,15 @@
 
 Download financial data to postgres database from yahoo finance.
 
-```txt
-yfinance2pg
-    Download financial data to postgres database from yahoo finance.
+## Installation
 
+```sh
+python3 -m pip install yfinance2pg
+```
+
+## Usage
+
+```txt
 usage:
     yfinance2pg <options>
 
